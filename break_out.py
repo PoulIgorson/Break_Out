@@ -30,6 +30,10 @@ class Platform():
   
   def moves(self):
     self.x += self.speed * self.turns
+    if not 0 <= self.x <= self.size[0] - self.w:
+      if self.x < 0:
+        self.x = 0
+      else: self.x = self.size[0] - self.w
   
   def turn(self, t):
     if t == 1:
@@ -41,7 +45,7 @@ class Platform():
     pygame.draw.rect(screen, self.collor, (self.x, self.y, self.w, self.h))
 
 def break_out():
-  size = width, height = 350, 350
+  size = width, height = 800, 600
   pygame.init()
   pygame.display.set_caption('BreakOut')
   screen = pygame.display.set_mode(size, pygame.RESIZABLE)

@@ -42,7 +42,7 @@ class Ball():
     self.geometry.centery += self.move_y * self.speed
 
 def simple_ball():
-  size = width, height = 350, 350
+  size = width, height = 800, 600
   pygame.init()
   pygame.display.set_caption('BreakOut')
   screen = pygame.display.set_mode(size, pygame.RESIZABLE)
