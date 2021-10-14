@@ -1,5 +1,4 @@
 import pygame
-import sys
 from random import randint as rand
 from math import pi, cos, sin
 
@@ -40,3 +39,10 @@ class Ball():
     
     self.geometry.centerx += self.move_x * self.speed
     self.geometry.centery += self.move_y * self.speed
+  
+  def collide(self, pf):
+    x = self.geometry.x
+    y = self.geometry.y
+    if y + self.radius >= pf.y - pf.h:
+      if pf.x <= x <= pf.x + pf.w:
+        self.move_y = -self.move_y

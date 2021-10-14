@@ -1,13 +1,4 @@
 import pygame
-from simple_ball import Ball
-
-class Ball(Ball):
-  def collide(self, pf):
-    x = self.geometry.x
-    y = self.geometry.y
-    if y + self.radius >= pf.y - pf.h:
-      if pf.x <= x <= pf.x + pf.w:
-        self.move_y = -self.move_y
 
 class Platform():
   def __init__(self, screen):
