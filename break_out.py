@@ -2,6 +2,7 @@ import pygame
 import sys
 from ball import Ball
 from platform_ import Platform
+from Game_over import Game_over
 
 fps = 30
 
@@ -47,11 +48,12 @@ def break_out():
     screen.fill(BLACK)
     ball.draw(screen)
     pf.draw(screen)
+    if Game_over(ball.geometry.centery, pf.y, width, height, screen, fps): game_over = True
 
     pygame.display.flip()
 
     # подождать
-    pygame.time.wait(fps)
+    pygame.time.wait(int(1000/fps))
     
   sys.exit()
 
