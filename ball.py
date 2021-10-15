@@ -6,8 +6,8 @@ fps = 30
 
 def rand_angle():
   sign = -1 if rand(0, 1) == 0 else 1
-  angle = pi/2 + sign * rand(30, 90)*pi/180
-  return angle
+  angle = pi/2 + sign * rand(0, 60)*pi/180
+  return 150*pi/180#angle
 
 class Ball():
   def __init__(self, screen, angle=rand_angle()):
@@ -26,23 +26,29 @@ class Ball():
     screen.blit(self.image, self.geometry)
   
   def move(self):
-    if 0 >= self.geometry.centerx - self.radius:
+    if 0 >= self.geometry.x:
       self.move_x = -self.move_x
-      self.geometry.x += 2
+      self.geometry.centerx += 2
     elif self.size[0] <= self.geometry.centerx + self.radius:
       self.move_x = -self.move_x
-      self.geometry.x -= 2
+      self.geometry.centerx -= 2
 
     if 0 >= self.geometry.y:
       self.move_y = -self.move_y
       self.geometry.y += 2
+    elif self.size[1] <= self.geometry.centery + self.radius:
+      self.move_y = -self.move_y
+      self.geometry.y -= 2
     
     self.geometry.centerx += self.move_x * self.speed
     self.geometry.centery += self.move_y * self.speed
   
-  def collide(self, pf):
+  def collide(self, pf, br = 0):
     x = self.geometry.x
     y = self.geometry.y
-    if y + self.radius >= pf.y - pf.h:
-      if pf.x <= x <= pf.x + pf.w:
+    if pf.x <= x <= pf.x + pf.w:
+      if (not br) and y + self.radius >= pf.y - pf.h:
         self.move_y = -self.move_y
+      elif br and y < pf.y + pf.h:
+        self.move_y = -self.move_y
+        pf.collides_ball()
