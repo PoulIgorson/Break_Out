@@ -24,7 +24,7 @@ class Ball():
 
   def draw(self, screen):
     screen.blit(self.image, self.geometry)
-  
+
   def move(self):
     if 0 >= self.geometry.x:
       self.move_x = -self.move_x
@@ -39,10 +39,10 @@ class Ball():
     elif self.size[1] <= self.geometry.centery + self.radius:
       self.move_y = -self.move_y
       self.geometry.y -= 2
-    
+
     self.geometry.centerx += self.move_x * self.speed
     self.geometry.centery += self.move_y * self.speed
-  
+
   def collide(self, pf, br = 0):
     x = self.geometry.x
     y = self.geometry.y
