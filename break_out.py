@@ -19,10 +19,12 @@ def break_out():
 
   ball = Ball(screen)
   pf = Platform(screen)
-  bricks = [Brick(screen, i) for i in range(20)]
-
+  bricks = []
+  for i in range(5):
+    for j in range(10):
+      bricks.append(Brick(screen, i, j))
   god_mode = 0
-  gm_time = 15 * int(1000/fps)
+  gm_time = 500 * int(1000/fps)
 
   game_over = False
   while not game_over:
@@ -53,14 +55,13 @@ def break_out():
     ball.collide(pf)
     ball.move()
     pf.moves()
-    for brick in bricks:
-      ball.collide(brick, 1)
+    for i in range(len(bricks)):
+      ball.collide(bricks[i], 1)
 
     if god_mode: gm_time -= 1
     if gm_time == 0:
       god_mode = not god_mode
       gm_time = 15 * int(1000/fps)
-    
 
     score = font.render(f'{Brick.score}', True, (200, 100, 150))
 
@@ -68,10 +69,10 @@ def break_out():
     screen.fill(BLACK)
     ball.draw(screen)
     pf.draw(screen)
-    for brick in bricks:
-      brick.draw(screen)
+    for i in range(len(bricks)):
+      bricks[i].draw(screen)
     screen.blit(score, (20, 30))
-    if (not god_mode) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps): game_over = True
+    if (not god_mode) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps, Brick.score): game_over = True
 
     pygame.display.flip()
 

@@ -6,8 +6,8 @@ fps = 30
 
 def rand_angle():
   sign = -1 if rand(0, 1) == 0 else 1
-  angle = pi/2 + sign * rand(0, 60)*pi/180
-  return 150*pi/180#angle
+  angle = pi/2 + sign * rand(1, 60)*pi/180
+  return angle
 
 class Ball():
   def __init__(self, screen, angle=rand_angle()):
