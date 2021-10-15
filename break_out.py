@@ -7,7 +7,7 @@ from Game_over import Game_over
 fps = 30
 
 def break_out():
-  size = width, height = 500, 350
+  size = width, height = 800, 600
   pygame.init()
   pygame.display.set_caption('BreakOut')
   screen = pygame.display.set_mode(size, pygame.RESIZABLE)
