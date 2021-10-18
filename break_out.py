@@ -5,9 +5,15 @@ from platform_ import Platform
 from brick import Brick
 from Game_over import Game_over
 
-fps = 30
+def generate_bricks(screen):
+  bricks = []
+  for i in range(5):
+    for j in range(10):
+      bricks.append(Brick(screen, i, j))
+  return bricks
 
 def break_out():
+  fps = 90
   size = width, height = 500, 350
   pygame.init()
   pygame.display.set_caption('BreakOut')
@@ -15,16 +21,14 @@ def break_out():
 
   font = pygame.font.SysFont('Comic Sans MS', int(55*width/500), True)
 
-  BLACK = 0, 0, 0
+  BLACK = (0, 0, 0)
 
   ball = Ball(screen)
   pf = Platform(screen)
-  bricks = []
-  for i in range(5):
-    for j in range(10):
-      bricks.append(Brick(screen, i, j))
-  god_mode = 0
-  gm_time = 500 * int(1000/fps)
+  bricks = generate_bricks(screen)
+
+  god_mode = 1
+  gm_time = 500 * int(1000/fps) * 1000000
 
   game_over = False
   while not game_over:
