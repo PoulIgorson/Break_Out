@@ -1,9 +1,10 @@
 import pygame
 import sys
-from ball import Ball
-from platform_ import Platform
-from brick import Brick
+from Objects.ball import Ball
+from Objects.platform_ import Platform
+from Objects.brick import Brick
 from Game_over import Game_over
+from Objects.bonus import Bonus
 
 def generate_bricks(screen):
   bricks = []
@@ -14,7 +15,7 @@ def generate_bricks(screen):
 
 def break_out():
   fps = 30
-  size = width, height = 800, 600
+  size = width, height = 500, 350
   pygame.init()
   pygame.display.set_caption('BreakOut')
   screen = pygame.display.set_mode(size, pygame.RESIZABLE)
@@ -24,8 +25,10 @@ def break_out():
   BLACK = (0, 0, 0)
 
   ball = Ball(screen)
-  pf = Platform(screen)
+  pf = Platform(screen, ball.speed)
   bricks = generate_bricks(screen)
+
+  line_draw = []
 
   god_mode = 1
   gm_time = 500 * int(1000/fps) * 1000000
@@ -61,6 +64,8 @@ def break_out():
     pf.moves()
     for i in range(len(bricks)):
       ball.collide(bricks[i], 1)
+      pf.collide_brick(bricks[i])
+      bricks[i].moves()
 
     if god_mode: gm_time -= 1
     if gm_time == 0:

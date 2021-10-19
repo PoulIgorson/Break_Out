@@ -4,13 +4,13 @@ from math import pi, cos, sin
 
 def rand_angle():
   sign = -1 if rand(0, 1) == 0 else 1
-  angle = pi/2 + sign * rand(1, 60)*pi/180
+  angle = pi/2 + sign * rand(5, 60)*pi/180
   return angle
 
 class Ball():
   def __init__(self, screen, angle=rand_angle()):
     self.size = pygame.display.get_surface().get_size()
-    self.image = pygame.image.load('basketball.png')
+    self.image = pygame.image.load('Image/basketball.png')
     self.radius = 10
     self.image = pygame.transform.scale(self.image, (self.radius*2, self.radius*2))
     self.geometry = self.image.get_rect()
@@ -46,14 +46,26 @@ class Ball():
     x = self.geometry.centerx
     y = self.geometry.centery
     r = self.radius
+    w = pf.w + pf.bonuses['wide_platform'] * 10
+    h = pf.h
 
-    if pf.x - r <= x <= pf.x + pf.w + r:
-      if pf.y - r <= y <= (pf.y + pf.h + r) + (not isbrick) * self.size[1]:
-        if pf.y - r + pf.h*0.3 <= y <= (pf.y + r + pf.h*0.7) + (not isbrick) * self.size[1]:
-          self.move_x = -self.move_x
-          self.geometry.x += self.move_x
-          if isbrick: pf.collides_ball()
+    if pf.x - r <= x <= pf.x + w + r:
+      if pf.y - r <= y <= (pf.y + h + r) + (not isbrick) * self.size[1]:
+        if pf.y - r +h*0.3 <= y <= (pf.y + r + h*0.7) + (not isbrick) * self.size[1]:
+          if isbrick:
+            if pf.speed == 0:
+              pf.collides_ball()
+              self.geometry.x -= self.move_x
+              self.move_x = -self.move_x
+          else:
+            self.geometry.x -= self.move_x
+            self.move_x = -self.move_x
         else:
-          self.move_y = -self.move_y
-          self.geometry.y += self.move_y
-          if isbrick: pf.collides_ball()
+          if isbrick:
+            if pf.speed == 0:
+              pf.collides_ball()
+              self.geometry.y -= self.move_y
+              self.move_y = -self.move_y
+          else:
+            self.geometry.y -= self.move_y
+            self.move_y = -self.move_y
