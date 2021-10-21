@@ -11,15 +11,16 @@ class Platform():
     self.turns = 0
     self.speed = 2.5
     self.bonuses = {
-      'wide_platform': 0
+      'wide_platform': 0,
+      'god_mode': 0
     }
   
   def moves(self):
     self.x += self.speed * self.turns
-    if not 0 <= self.x <= self.size[0] - self.w:
+    if not 0 <= self.x <= self.size[0] - self.w - self.bonuses['wide_platform'] * 10:
       if self.x < 0:
         self.x = 0
-      else: self.x = self.size[0] - self.w
+      else: self.x = self.size[0] - self.w - self.bonuses['wide_platform'] * 10
   
   def turn(self, t):
     if t == 1:
@@ -34,9 +35,15 @@ class Platform():
     self.h
     ))
   
-  def collide_brick(self, brick):
+  def collide_brick(self, brick, fps=30):
     if pygame.Rect((self.x, self.y), (self.w, self.h)).colliderect(pygame.Rect((brick.x, brick.y), (brick.w, brick.h))):
-      self.bonuses[Bonus.bonuses[brick.bonuss.bonus]] += 1
-      brick.move_y = 0
-      brick.speed = 0
-      brick.x = self.size[0] + 50
+      bonus = Bonus.bonuses[brick.bonuss.bonus - 1]
+      if bonus == 'wide_platform':
+        Bonus.wide_platform(self)
+      elif bonus == 'god_mode':
+        Bonus.god_mode(self, fps)
+      return 'del'
+
+  def update_bonus(self):
+    if self.bonuses['god_mode']:
+      self.bonuses['god_mode'] -= 1

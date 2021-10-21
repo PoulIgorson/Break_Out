@@ -24,7 +24,7 @@ class Ball():
     screen.blit(self.image, self.geometry)
     #pygame.draw.rect(screen, (255, 0, 0), self.geometry, 2)
   
-  def move(self):
+  def move(self, gm = 0):
     if 0 >= self.geometry.x:
       self.move_x = -self.move_x
       self.geometry.centerx += 2
@@ -35,7 +35,7 @@ class Ball():
     if 0 >= self.geometry.y:
       self.move_y = -self.move_y
       self.geometry.y += 2
-    elif self.size[1] <= self.geometry.centery + self.radius:
+    elif gm and self.size[1] <= self.geometry.centery + self.radius:
       self.move_y = -self.move_y
       self.geometry.y -= 2
     
@@ -52,6 +52,8 @@ class Ball():
     if pf.x - r <= x <= pf.x + w + r:
       if pf.y - r <= y <= (pf.y + h + r) + (not isbrick) * self.size[1]:
         if pf.y - r +h*0.3 <= y <= (pf.y + r + h*0.7) + (not isbrick) * self.size[1]:
+          if isbrick and pf.bonuses['wide_platform']:
+            pf.h /= 2
           if isbrick:
             if pf.speed == 0:
               pf.collides_ball()

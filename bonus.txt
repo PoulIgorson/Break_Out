@@ -1,1 +1,2 @@
 wide_platform
+god_mode

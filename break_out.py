@@ -4,7 +4,6 @@ from Objects.ball import Ball
 from Objects.platform_ import Platform
 from Objects.brick import Brick
 from Game_over import Game_over
-from Objects.bonus import Bonus
 
 def generate_bricks(screen):
   bricks = []
@@ -28,11 +27,6 @@ def break_out():
   pf = Platform(screen, ball.speed)
   bricks = generate_bricks(screen)
 
-  line_draw = []
-
-  god_mode = 1
-  gm_time = 500 * int(1000/fps) * 1000000
-
   game_over = False
   while not game_over:
     # события
@@ -50,9 +44,6 @@ def break_out():
         
         if pygame.K_d == event.key:
           pf.turn(1)
-        
-        if pygame.K_g == event.key:
-          god_mode = not god_mode
       
       if event.type == pygame.KEYUP:
         if pygame.K_a == event.key or pygame.K_d == event.key:
@@ -60,19 +51,24 @@ def break_out():
     
     # логика работы игры
     ball.collide(pf)
-    ball.move()
+    ball.move(pf.bonuses['god_mode'])
     pf.moves()
+    pf.update_bonus()
     for i in range(len(bricks)):
       ball.collide(bricks[i], 1)
-      pf.collide_brick(bricks[i])
-      bricks[i].moves()
-
-    if god_mode: gm_time -= 1
-    if gm_time == 0:
-      god_mode = not god_mode
-      gm_time = 15 * int(1000/fps)
+      if pf.collide_brick(bricks[i], fps) == 'del':
+        bricks[i] = 0
+      if bricks[i] != 0: bricks[i].moves()
+    i = 0
+    while 0 in bricks:
+      if bricks[i] == 0:
+        del bricks[i]
+        i -= 1
+      i += 1
 
     score = font.render(f'{Brick.score}', True, (200, 100, 150))
+    print(pf.bonuses['wide_platform'])
+    print(pf.bonuses['god_mode'], '\n')
 
     # отрисовка
     screen.fill(BLACK)
@@ -81,7 +77,7 @@ def break_out():
     for i in range(len(bricks)):
       bricks[i].draw(screen)
     screen.blit(score, (20, 30))
-    if (not god_mode) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps, Brick.score): game_over = True
+    if (not pf.bonuses['god_mode']) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps, Brick.score): game_over = True
 
     pygame.display.flip()
 
