@@ -1,5 +1,5 @@
-from Objects.platform_ import Platform
-from Objects.bonus import Bonus
+from Break_Out.Objects.platform_ import Platform
+from Break_Out.Objects.bonus import Bonus
 
 class Brick(Platform):
   score = 0

@@ -6,7 +6,7 @@ class Bonus:
   bonuses = []
   def __init__(self, screen, pf):
     self.size = pygame.display.get_surface().get_size()
-    with open('bonus.txt', 'r') as f:
+    with open('Break_Out/bonus.txt', 'r') as f:
       for name in f.readlines():
         Bonus.bonuses.append(name)
         Bonus.count_bonus += 1

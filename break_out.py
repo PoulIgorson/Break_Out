@@ -1,10 +1,10 @@
 import pygame
 import sys
-from Objects.ball import Ball
-from Objects.platform_ import Platform
-from Objects.brick import Brick
-from Game_over import Game_over
-from Objects.bonus import Bonus
+from Break_Out.Objects.ball import Ball
+from Break_Out.Objects.platform_ import Platform
+from Break_Out.Objects.brick import Brick
+from Break_Out.Game_over import Game_over
+from Break_Out.Objects.bonus import Bonus
 
 def generate_bricks(screen):
   bricks = []
