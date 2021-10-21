@@ -10,7 +10,7 @@ def rand_angle():
 class Ball():
   def __init__(self, screen, angle=rand_angle()):
     self.size = pygame.display.get_surface().get_size()
-    self.image = pygame.image.load('Break_Out/Image/basketball.png')
+    self.image = pygame.image.load('Image/basketball.png')
     self.radius = 10
     self.image = pygame.transform.scale(self.image, (self.radius*2, self.radius*2))
     self.geometry = self.image.get_rect()

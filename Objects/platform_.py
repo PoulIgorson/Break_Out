@@ -1,5 +1,5 @@
 import pygame
-from Break_Out.Objects.bonus import Bonus
+from Objects.bonus import Bonus
 
 class Platform():
   def __init__(self, screen, Speed = 4):
