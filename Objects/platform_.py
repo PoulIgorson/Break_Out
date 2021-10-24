@@ -36,7 +36,7 @@ class Platform():
     ))
   
   def collide_brick(self, brick, fps=30):
-    if pygame.Rect((self.x, self.y), (self.w, self.h)).colliderect(pygame.Rect((brick.x, brick.y), (brick.w, brick.h))):
+    if pygame.Rect((self.x, self.y), (self.w+ self.bonuses['wide_platform'] * 10, self.h)).colliderect(pygame.Rect((brick.x, brick.y), (brick.w, brick.h))):
       bonus = Bonus.bonuses[brick.bonuss.bonus - 1]
       if bonus == 'wide_platform':
         Bonus.wide_platform(self)

@@ -10,7 +10,7 @@ def Game_over(pos_ball, pos_platform, width, height, screen, fps, score):
     score = font.render(f'{score}', True, (200, 150, 100))
     text_size = text.get_size()
     score_size = score.get_size()
-    while t < 2000 / fps:
+    while t < 2*fps:
       screen.fill((0, 0, 0))
       screen.blit(text, (width/2-text_size[0]/2, height/2-text_size[1]/2))
       screen.blit(score, (width/2-score_size[0]/2, height/2-score_size[1]/2+text_size[1] + 1))

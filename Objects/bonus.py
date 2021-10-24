@@ -18,4 +18,4 @@ class Bonus:
     pf.bonuses['wide_platform'] += 1
   
   def god_mode(pf, fps=30):
-    pf.bonuses['god_mode'] = 30 * 1000/fps
+    pf.bonuses['god_mode'] = 30 * fps

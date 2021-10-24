@@ -13,7 +13,7 @@ def generate_bricks(screen):
   return bricks
 
 def break_out():
-  fps = 30
+  fps = 33
   size = width, height = 500, 350
   pygame.init()
   pygame.display.set_caption('BreakOut')
@@ -72,7 +72,7 @@ def break_out():
 
     # отрисовка
     screen.fill(BLACK)
-    ball.draw(screen)
+    ball.draw(screen, pf.bonuses['god_mode'], fps)
     pf.draw(screen)
     for i in range(len(bricks)):
       bricks[i].draw(screen)

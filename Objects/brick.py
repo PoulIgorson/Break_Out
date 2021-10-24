@@ -20,4 +20,4 @@ class Brick(Platform):
     Brick.score += 1
     self.move_y = 1
     self.move_x = 0
-    self.speed = 2
+    self.speed = 3

@@ -20,9 +20,10 @@ class Ball():
     self.move_y = -sin(angle)
     self.speed = 4
 
-  def draw(self, screen):
+  def draw(self, screen, gm = 0, fps = 30):
     screen.blit(self.image, self.geometry)
-    #pygame.draw.rect(screen, (255, 0, 0), self.geometry, 2)
+    if gm:
+      pygame.draw.circle(screen, (255, 255, 255), self.geometry.center, self.radius, int(100 * gm/(30 * fps)))
   
   def move(self, gm = 0):
     if 0 >= self.geometry.x:
