@@ -67,8 +67,6 @@ def break_out():
       i += 1
 
     score = font.render(f'{Brick.score}', True, (200, 100, 150))
-    print(pf.bonuses['wide_platform'])
-    print(pf.bonuses['god_mode'], '\n')
 
     # отрисовка
     screen.fill(BLACK)
@@ -78,7 +76,7 @@ def break_out():
       bricks[i].draw(screen)
     screen.blit(score, (20, 30))
     if (not pf.bonuses['god_mode']) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps, Brick.score): game_over = True
-
+    print(len(bricks))
     pygame.display.flip()
 
     # подождать

@@ -58,6 +58,7 @@ class Ball():
           if isbrick:
             if pf.speed == 0:
               pf.collides_ball()
+              self.speed += 0
               self.geometry.x -= self.move_x
               self.move_x = -self.move_x
           else:
@@ -67,6 +68,9 @@ class Ball():
           if isbrick:
             if pf.speed == 0:
               pf.collides_ball()
+              if pf.bonuss == 1:
+                pf.w, pf.h = pf.w/1.5, pf.h/2
+              self.speed += 0
               self.geometry.y -= self.move_y
               self.move_y = -self.move_y
           else:

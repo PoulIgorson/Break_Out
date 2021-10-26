@@ -43,6 +43,8 @@ class Platform():
       elif bonus == 'god_mode':
         Bonus.god_mode(self, fps)
       return 'del'
+    if brick.y > self.size[1]:
+      return 'del'
 
   def update_bonus(self):
     if self.bonuses['god_mode']:
