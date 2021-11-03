@@ -40,6 +40,7 @@ def input_name(screen, width, height, fps, scores):
         if event.key == pygame.K_n: name += 'n'
         if event.key == pygame.K_m: name += 'm'
         if event.key == pygame.K_SPACE: name += '_'
+        if event.key == 8: name = name[:-1]
         if event.key == 13: input_word = 1
     
     screen.fill((0, 0, 0))

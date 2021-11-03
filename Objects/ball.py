@@ -53,8 +53,6 @@ class Ball():
     if pf.x - r <= x <= pf.x + w + r:
       if pf.y - r <= y <= (pf.y + h + r) + (not isbrick) * self.size[1]:
         if pf.y - r +h*0.3 <= y <= (pf.y + r + h*0.7) + (not isbrick) * self.size[1]:
-          if isbrick and pf.bonuses['wide_platform']:
-            pf.h /= 2
           if isbrick:
             if pf.speed == 0:
               pf.collides_ball()

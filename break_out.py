@@ -14,7 +14,7 @@ def generate_bricks(screen):
 
 def break_out():
   fps = 33
-  size = width, height = 500, 350
+  size = width, height = 720, 380#500, 350 #720 380
   pygame.init()
   pygame.display.set_caption('BreakOut')
   screen = pygame.display.set_mode(size, pygame.RESIZABLE)

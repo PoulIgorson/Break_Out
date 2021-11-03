@@ -1,5 +1,6 @@
 from Objects.platform_ import Platform
 from Objects.bonus import Bonus
+import pygame
 
 class Brick(Platform):
   score = 0
@@ -16,7 +17,16 @@ class Brick(Platform):
   def moves(self):
     self.y += self.speed * self.move_y
   
+  def draw(self, screen):
+    if self.bonuss.bonus == 2 and self.move_y:
+      pygame.draw.circle(screen, (50, 200, 255), (self.x + self.w/2, self.y + self.h/2), self.h/2)
+    else:
+      super().draw(screen)
+  
   def collides_ball(self):
+    if self.bonuss.bonus == 1:
+      self.w /= 2
+      self.h /= 2
     Brick.score += 1
     self.move_y = 1
     self.move_x = 0
