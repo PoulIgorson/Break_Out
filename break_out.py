@@ -14,10 +14,11 @@ def generate_bricks(screen):
 
 def break_out():
   fps = 33
-  size = width, height = 720, 380#500, 350 #720 380
+  size = width, height = 540, 350#500, 350 #720 380
   pygame.init()
   pygame.display.set_caption('BreakOut')
-  screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+  screen = pygame.display.set_mode(size,
+  pygame.FULLSCREEN)
 
   font = pygame.font.SysFont('Comic Sans MS', int(55*width/500), True)
 
@@ -27,6 +28,7 @@ def break_out():
   pf = Platform(screen, ball.speed)
   bricks = generate_bricks(screen)
 
+  mouse_pressed = 0
   game_over = False
   while not game_over:
     # события
@@ -34,20 +36,28 @@ def break_out():
       if event.type == pygame.QUIT:
         game_over = True
       
-      if event.type == pygame.VIDEORESIZE:
-        size = width, height = event.w, event.h
-        screen = pygame.display.set_mode(size, pygame.RESIZABLE)
-      
       if event.type == pygame.KEYDOWN:
         if pygame.K_a == event.key:
           pf.turn(-1)
         
         if pygame.K_d == event.key:
           pf.turn(1)
+    
+      if pygame.mouse.get_pressed()[0]:
+        mouse_pressed = 1
+        mouse_pos = pygame.mouse.get_pos()
+        if mouse_pos[0] < width/2:
+          pf.turn(-1)
+        else:
+          pf.turn(1)
       
       if event.type == pygame.KEYUP:
         if pygame.K_a == event.key or pygame.K_d == event.key:
           pf.turn(0)
+      
+      if not pygame.mouse.get_pressed()[0] and mouse_pressed:
+        mouse_pressed = 0
+        pf.turn(0)
     
     # логика работы игры
     ball.collide(pf)
