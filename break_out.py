@@ -14,11 +14,10 @@ def generate_bricks(screen):
 
 def break_out():
   fps = 40
-  size = width, height = 540, 350#500, 350 #720 380
+  size = width, height = 800, 600 # 500 350, 720 380
   pygame.init()
   pygame.display.set_caption('BreakOut')
-  screen = pygame.display.set_mode(size,
-  pygame.FULLSCREEN)
+  screen = pygame.display.set_mode(size) #, pygame.FULLSCREEN)
 
   font = pygame.font.SysFont('Comic Sans MS', int(55*width/500), True)
 
