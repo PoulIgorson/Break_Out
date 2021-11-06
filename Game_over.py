@@ -1,4 +1,5 @@
 from sys import exit
+from datetime import datetime
 import pygame
 from Highscores import save, load
 
@@ -62,9 +63,12 @@ def Game_over(pos_ball, pos_platform, width, height, screen, fps, score):
     table = load()
     table.append([input_name(screen, width, height, fps, score), score])
     save(table)
-    t = 0
     font = pygame.font.SysFont('Comic Sans MS', int(30*width/500), True)
-    while t < 5*fps:
+    drawing = 1
+    time_start = datetime.now()
+    while drawing:
+      time_current = datetime.now()
+      seconds_passed = (time_current - time_start).seconds
       screen.fill((0, 0, 0))
       y = 10
       for text in table:
@@ -74,6 +78,6 @@ def Game_over(pos_ball, pos_platform, width, height, screen, fps, score):
         y += 30*width/500
 
       pygame.display.flip()
-      t += 1
-      pygame.time.wait(int(1000/fps))
+      if seconds_passed >= 5:
+        drawing = 0
     return 1
