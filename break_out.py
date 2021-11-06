@@ -1,99 +1,83 @@
+from sys import exit
+from datetime import datetime
 import pygame
-import sys
-from Objects.ball import Ball
-from Objects.platform_ import Platform
-from Objects.brick import Brick
-from Game_over import Game_over
+from Highscores import save, load
 
-def generate_bricks(screen):
-  bricks = []
-  for i in range(5):
-    for j in range(10):
-      bricks.append(Brick(screen, i, j))
-  return bricks
-
-def break_out():
-  fps = 33
-  size = width, height = 540, 350#500, 350 #720 380
-  pygame.init()
-  pygame.display.set_caption('BreakOut')
-  screen = pygame.display.set_mode(size,
-  pygame.FULLSCREEN)
-
-  font = pygame.font.SysFont('Comic Sans MS', int(55*width/500), True)
-
-  BLACK = (0, 0, 0)
-
-  ball = Ball(screen)
-  pf = Platform(screen, ball.speed)
-  bricks = generate_bricks(screen)
-
-  mouse_pressed = 0
-  game_over = False
-  while not game_over:
-    # события
+def input_name(screen, width, height, fps, scores):
+  input_word = 0
+  name = ''
+  font = pygame.font.SysFont('Comic Sans MS', int(30*width/500), True)
+  score = scores
+  while not input_word:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-        game_over = True
+        exit()
       
-      if event.type == pygame.KEYDOWN:
-        if pygame.K_a == event.key:
-          pf.turn(-1)
-        
-        if pygame.K_d == event.key:
-          pf.turn(1)
+      if event.type == pygame.KEYDOWN and not input_word:
+        if event.key == pygame.K_q: name += 'q'
+        if event.key == pygame.K_w: name += 'w'
+        if event.key == pygame.K_e: name += 'e'
+        if event.key == pygame.K_r: name += 'r'
+        if event.key == pygame.K_t: name += 't'
+        if event.key == pygame.K_y: name += 'y'
+        if event.key == pygame.K_u: name += 'u'
+        if event.key == pygame.K_i: name += 'i'
+        if event.key == pygame.K_o: name += 'o'
+        if event.key == pygame.K_p: name += 'p'
+        if event.key == pygame.K_a: name += 'a'
+        if event.key == pygame.K_s: name += 's'
+        if event.key == pygame.K_d: name += 'd'
+        if event.key == pygame.K_f: name += 'f'
+        if event.key == pygame.K_g: name += 'g'
+        if event.key == pygame.K_h: name += 'h'
+        if event.key == pygame.K_j: name += 'j'
+        if event.key == pygame.K_k: name += 'k'
+        if event.key == pygame.K_l: name += 'l'
+        if event.key == pygame.K_z: name += 'z'
+        if event.key == pygame.K_x: name += 'x'
+        if event.key == pygame.K_c: name += 'c'
+        if event.key == pygame.K_v: name += 'v'
+        if event.key == pygame.K_b: name += 'b'
+        if event.key == pygame.K_n: name += 'n'
+        if event.key == pygame.K_m: name += 'm'
+        if event.key == pygame.K_SPACE: name += '_'
+        if event.key == 8: name = name[:-1]
+        if event.key == 13: input_word = 1
     
-      if pygame.mouse.get_pressed()[0]:
-        mouse_pressed = 1
-        mouse_pos = pygame.mouse.get_pos()
-        if mouse_pos[0] < width/2:
-          pf.turn(-1)
-        else:
-          pf.turn(1)
-      
-      if event.type == pygame.KEYUP:
-        if pygame.K_a == event.key or pygame.K_d == event.key:
-          pf.turn(0)
-      
-      if not pygame.mouse.get_pressed()[0] and mouse_pressed:
-        mouse_pressed = 0
-        pf.turn(0)
-    
-    # логика работы игры
-    ball.collide(pf)
-    ball.move(pf.bonuses['god_mode'])
-    pf.moves()
-    pf.update_bonus()
-    for i in range(len(bricks)):
-      ball.collide(bricks[i], 1)
-      if pf.collide_brick(bricks[i], fps) == 'del':
-        bricks[i] = 0
-      if bricks[i] != 0: bricks[i].moves()
-    i = 0
-    while 0 in bricks:
-      if bricks[i] == 0:
-        del bricks[i]
-        i -= 1
-      i += 1
-
-    score = font.render(f'{Brick.score}', True, (200, 100, 150))
-
-    # отрисовка
-    screen.fill(BLACK)
-    ball.draw(screen, pf.bonuses['god_mode'], fps)
-    pf.draw(screen)
-    for i in range(len(bricks)):
-      bricks[i].draw(screen)
-    screen.blit(score, (20, 30))
-    if (not pf.bonuses['god_mode']) and Game_over(ball.geometry.centery, pf.y, width, height, screen, fps, Brick.score): game_over = True
-    print(len(bricks))
+    screen.fill((0, 0, 0))
+    over = font.render(f'GAME OWER', True, (255, 200, 200))
+    scores = font.render(f'Your scores: {score}', True, (200, 230, 210))
+    text = font.render(f'Your name: {name}', True, (200, 230, 210))
+    text_size = text.get_size()
+    score_size = scores.get_size()
+    over_size = over.get_size()
+    screen.blit(over, (width/2-over_size[0]/2, height/2-over_size[1]-score_size[1]-text_size[1]/2))
+    screen.blit(scores, (width/2-score_size[0]/2, height/2-score_size[1]-text_size[1]/2))
+    screen.blit(text, (width/2-text_size[0]/2, height/2-text_size[1]/2))
     pygame.display.flip()
-
-    # подождать
     pygame.time.wait(int(1000/fps))
-    
-  sys.exit()
+  return name
 
+def Game_over(pos_ball, pos_platform, width, height, screen, fps, score):
+  if pos_ball > pos_platform:
+    table = load()
+    table.append([input_name(screen, width, height, fps, score), score])
+    save(table)
+    font = pygame.font.SysFont('Comic Sans MS', int(30*width/500), True)
+    drawing = 1
+    time_start = datetime.now()
+    while drawing:
+      time_current = datetime.now()
+      seconds_passed = (time_current - time_start).seconds
+      screen.fill((0, 0, 0))
+      y = 10
+      for text in table:
+        text[1] = str(text[1])
+        text_ = font.render(' '.join(text), True, (255, 255, 255))
+        screen.blit(text_, (10, y))
+        y += 30*width/500
 
-if __name__ == '__main__':
-  break_out()
+      pygame.display.flip()
+      if seconds_passed >= 5:
+        drawing = 0
+    return 1
